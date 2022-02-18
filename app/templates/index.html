@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Print Crossword Dashboard</title>
+
+    <link rel="stylesheet" href="static/css/style.css" />
+</head>
+
+<body>
+    <h1>Print Crosswords</h1>
+
+    <form method="POST" action="/print">
+        <div class="input-group">
+            <label for="publisher-select">Choose a publisher:
+                <select name="publisher" id="publisher-select">
+                    <option value="nyt">New York Times</option>
+                    <option value="avx">American Values Club</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="input-group">
+            <label for="puzzle-date">Puzzle date:
+                <input type="date" id="puzzle-date" name="puzzle-date" value="2022-02-22" />
+            </label>
+        </div>
+
+        <div class="input-group">
+            <button type="submit">Print</button>
+        </div>
+    </form>
+
+    <p id="success-message" class="success">{{ get_flashed_messages()[0] }}</p>
+
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>
