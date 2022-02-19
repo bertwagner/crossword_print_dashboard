@@ -1,15 +1,17 @@
 body {
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
     margin:0;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-  }
+p, input,label,select,button {
+    font-size:18px;
+}
+
 
 .input-group {
     padding-top:20px;
