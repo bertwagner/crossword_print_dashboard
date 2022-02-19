@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, flash, request
 import subprocess
 import os
+from pathlib import Path
 
 #MOVE TO CONFIG
 PRINTER_NAME='BrotherHL2170W'
@@ -26,15 +27,25 @@ def print():
     return redirect('/')
 
 def download_puzzle(publisher,date):
-    # Check cache before downloading
 
-    folder_path_pdf = f'../data/pdf/{publisher}/'
-    folder_path_puz = f'../data/puz/{publisher}/'
+    project_dir = Path(__file__).resolve().parents[1]
 
-    # TODO get this to save in the right spot
-    cmd = f'cd ../data/puz/{publisher}/ && xword-dl {publisher} --output {date}.puz'
-    process = subprocess.Popen(cmd.split())
-    output, error = process.communicate()
+    paths = {
+        'pdf': os.path.join(project_dir,f'data/pdf/{publisher}/'),
+        'puz': os.path.join(project_dir,f'data/puz/{publisher}/')
+        }
+
+    for path in paths.items():
+        file_ext=path[0]
+        folder_path=path[1]
+        make_folder_if_not_exists(folder_path)
+        file_path = os.path.join(folder_path,f'{date}.{file_ext}')
+    
+        if not os.path.exists(file_path):   
+            # TODO: update xword-dl to download pdfs  
+            cmd = f'xword-dl {publisher} --output {date}.{file_ext}'
+            process = subprocess.Popen(cmd.split(), cwd=folder_path)
+            output, error = process.communicate()
 
 def send_to_printer(printer_name,file_name):
     cmd = f'lp -n 1 -o fit-to-page -d {printer_name} {file_name}'
@@ -47,7 +58,7 @@ def send_to_printer(printer_name,file_name):
         flash(f'Something went wrong with printing: {str(e)}',"error")
 
 
-def __make_folder_if_not_exists(folder_path,delete_files):
+def make_folder_if_not_exists(folder_path):
     path_exists = os.path.exists(folder_path)
 
     if not path_exists:
