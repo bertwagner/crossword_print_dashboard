@@ -19,15 +19,16 @@ def print():
 
     send_to_printer(PRINTER_NAME,'crossword.pdf')
 
-    flash("Your file has been sent to the printer","success")
     return redirect('/')
 
 
 def send_to_printer(printer_name,file_name):
     cmd = f'lp -n 1 -o fit-to-page -d {printer_name} {file_name}'
-    process = subprocess.Popen(cmd.split())
-    output, error = process.communicate()
+    
+    try:
+        #process = subprocess.Popen(cmd.split())
+        #output, error = process.communicate()
+        flash("Your file has been sent to the printer","success")
+    except Exception as e:
+        flash(f'Something went wrong with printing: {str(e)}',"error")
 
-    # TODO: TEST THIS, FLASH ERROR MESSAGES ON HOME PAGE
-    if error != None:
-        flash('Something went wrong with printing: {error}',"error")

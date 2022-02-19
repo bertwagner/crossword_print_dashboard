@@ -21,6 +21,10 @@ p, input,label,select,button {
     color:limegreen;
 }
 
+.error {
+    color:red;
+}
+
 .hidden {
     visibility: hidden;
     opacity: 0;

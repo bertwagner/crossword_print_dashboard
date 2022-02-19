@@ -15,6 +15,6 @@
 
 // hide flashed message 5 seconds after load
 setTimeout(function () {
-    document.querySelector("#success-message").classList.add("hidden");
-}, 2000);
+    document.querySelector(".flashes").classList.add("hidden");
+}, 5000);
 })();
